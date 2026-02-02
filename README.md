@@ -98,6 +98,8 @@ npm install
 
 ## Usage
 
+Once implemented, the CLI will support:
+
 ```bash
 # Analyze and fix an issue
 osc-agent --repo <owner/repo> --issue <issue-number>
