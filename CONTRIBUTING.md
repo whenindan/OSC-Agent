@@ -143,17 +143,15 @@ Always create a new branch for your work:
 git checkout main
 git pull upstream main
 
-# Create and switch to a new branch
-git checkout -b feature/issue-number-brief-description
-# or
-git checkout -b fix/issue-number-brief-description
+# Create and switch to a new branch using the exact issue title
+# Replace spaces with hyphens and use lowercase
+git checkout -b "exact-issue-title-here"
 ```
 
-**Branch naming conventions:**
-- `feature/123-add-new-agent` - For new features
-- `fix/456-resolve-crash` - For bug fixes
-- `docs/789-update-readme` - For documentation
-- `test/101-add-unit-tests` - For test additions
+**Branch naming convention:**
+- Name your branch **exactly** as the issue title (with spaces replaced by hyphens and in lowercase)
+- For example, if the issue title is "Add Multi-Agent System", your branch should be: `add-multi-agent-system`
+- This ensures clear traceability between issues and branches
 
 ### 2. Make Your Changes
 
