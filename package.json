@@ -4,7 +4,7 @@
   "description": "Open Source Contributing Agent - Autonomous CLI that acts as an AI open-source contributor",
   "main": "dist/index.js",
   "bin": {
-    "osc": "dist/cli.js"
+    "osc": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
