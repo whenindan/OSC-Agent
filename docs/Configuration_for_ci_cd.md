@@ -37,4 +37,7 @@
    - For easier workflow authoring and validation, install the **GitHub Actions extension** (`github.vscode-github-actions`) in VS Code.
    - This provides syntax highlighting, schema validation, and workflow run management directly inside your editor.
 
+7. **Use this command to validate and pass the prettier and lint checks**
+   - npx prettier --write [filepath]
+
 ---
