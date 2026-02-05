@@ -1,5 +1,11 @@
 # OSC-Agent
 
+# My Project
+
+[![Build Verification](https://github.com/DaniyalFaraz2003/OSC-Agent/actions/workflows/build.yml/badge.svg)](https://github.com/DaniyalFaraz2003/OSC-Agent/actions/workflows/build.yml)
+[![CI](https://github.com/DaniyalFaraz2003/OSC-Agent/actions/workflows/ci.yml/badge.svg)](https://github.com/DaniyalFaraz2003/OSC-Agent/actions/workflows/ci.yml)
+[![Publish](https://github.com/DaniyalFaraz2003/OSC-Agent/actions/workflows/publish.yml/badge.svg)](https://github.com/DaniyalFaraz2003/OSC-Agent/actions/workflows/publish.yml)
+
 > (Open Source Contributing Agent) - Autonomous CLI that acts as an AI open-source contributor
 
 ## Overview
@@ -9,31 +15,37 @@ OSC-Agent is an intelligent autonomous system designed to revolutionize open-sou
 ## Features
 
 ### 🔍 Intelligent Issue Analysis
+
 - Automatically fetches and analyzes GitHub issues
 - Understands context and requirements from issue descriptions
 - Prioritizes issues based on complexity and impact
 
 ### 🔎 Surgical Code Search
+
 - Powered by ripgrep for ultra-fast code searching
 - Context-aware code pattern matching
 - Efficient navigation through large codebases
 
 ### 🧠 AI-Powered Fix Generation
+
 - Multi-agent workflow using Gemini models
 - Cost-optimized model routing for different task complexities
 - Intelligent code generation with context understanding
 
 ### 🧪 Automated Testing & Verification
+
 - E2B sandbox integration for safe testing
 - Self-correction loops for iterative improvement
 - Automated test execution and validation
 
 ### 📝 Automated Pull Requests
+
 - Creates well-documented PRs automatically
 - Includes detailed change descriptions
 - Links back to original issues
 
 ### 🔄 Graph-Based Orchestration
+
 - State machine workflow management
 - Intelligent task routing and execution
 - Robust error handling and recovery
@@ -118,14 +130,14 @@ Create a `.env` file or `config.yaml` with:
 ```yaml
 github:
   token: YOUR_GITHUB_TOKEN
-  
+
 gemini:
   api_key: YOUR_GEMINI_API_KEY
-  model_tier: auto  # auto, basic, advanced
-  
+  model_tier: auto # auto, basic, advanced
+
 e2b:
   api_key: YOUR_E2B_API_KEY
-  
+
 testing:
   max_iterations: 3
   timeout: 300
@@ -134,6 +146,7 @@ testing:
 ## Development
 
 ### Prerequisites
+
 - Node.js >= 18
 - ripgrep installed
 - GitHub API access token
@@ -168,6 +181,7 @@ osc-agent/
 ## Cost Optimization
 
 OSC-Agent implements intelligent model routing:
+
 - **Simple fixes**: Uses cost-effective Gemini models
 - **Complex changes**: Routes to advanced models
 - **Caching**: Reuses analysis results when possible
@@ -213,6 +227,7 @@ MIT License
 ## Support
 
 For issues, questions, or contributions:
+
 - 📧 Email: support@osc-agent.dev
 - 🐛 Issues: [GitHub Issues](https://github.com/DaniyalFaraz2003/OSC-Agent/issues)
 - 💬 Discussions: [GitHub Discussions](https://github.com/DaniyalFaraz2003/OSC-Agent/discussions)
