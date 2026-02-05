@@ -1,0 +1,16 @@
+github:
+  token: "from_yaml_token"
+  owner: "my-org"
+  repo: "my-repo"
+
+gemini:
+  apiKey: "gemini_key_here"
+  model: "gemini-1.5-flash"
+  maxOutputTokens: 2048
+
+e2b:
+  apiKey: "e2b_key_here"
+
+testing:
+  enabled: false
+  verbose: true
