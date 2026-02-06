@@ -16,11 +16,20 @@ export class E2BClient {
 
   async createSandbox(options: SandboxOptions = {}): Promise<Sandbox> {
     const template = options.template || 'base';
-    return await Sandbox.create(template, {
-      apiKey: this.apiKey,
-      timeoutMs: options.timeoutMs || 300_000,
-      metadata: options.metadata,
-      envs: options.envs,
-    });
+    try {
+      return await Sandbox.create(template, {
+        apiKey: this.apiKey,
+        timeoutMs: options.timeoutMs || 300_000,
+        metadata: options.metadata,
+        envs: options.envs,
+      });
+    } catch (error) {
+      // Add context around E2B sandbox creation failures
+      const message =
+        `Failed to create E2B sandbox with template "${template}". ` +
+        'Please verify your E2B API key, network connectivity, and sandbox configuration.';
+      // Preserve original error as cause where supported
+      throw new Error(message, { cause: error as unknown });
+    }
   }
 }
