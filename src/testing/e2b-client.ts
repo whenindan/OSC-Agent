@@ -25,11 +25,9 @@ export class E2BClient {
       });
     } catch (error) {
       // Add context around E2B sandbox creation failures
-      const message =
-        `Failed to create E2B sandbox with template "${template}". ` +
-        'Please verify your E2B API key, network connectivity, and sandbox configuration.';
+      const message = `Failed to create E2B sandbox with template "${template}". ` + 'Please verify your E2B API key, network connectivity, and sandbox configuration.';
       // Preserve original error as cause where supported
-      throw new Error(message, { cause: error as unknown });
+      throw new Error(message, { cause: error });
     }
   }
 }
