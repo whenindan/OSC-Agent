@@ -2,8 +2,11 @@ import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import { IssueAnalyzer } from '../../../src/agents/issue-analyzer';
 import { Config } from '../../../src/config/validator';
 import { GitHubIssue } from '../../../src/github/types';
+import type { GeminiRequestOptions, GeminiResponse } from '../../../src/types/gemini';
 
-const generateMock = jest.fn();
+type GenerateFn = (prompt: string, options?: GeminiRequestOptions) => Promise<GeminiResponse<string>>;
+
+const generateMock = jest.fn<GenerateFn>();
 
 jest.mock('../../../src/agents/gemini-client', () => ({
   GeminiClient: jest.fn().mockImplementation(() => ({
