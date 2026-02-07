@@ -132,7 +132,7 @@ Generate comprehensive JSDoc/TSDoc documentation for the provided code.
 DOCUMENTATION STANDARDS:
 - Use /** ... */ for JSDoc/TSDoc comments
 - Include @param tags for all parameters with descriptions
-- Include @return tag with description
+- Include @returns tag with description
 - Include @throws for exceptions that may be thrown
 - Include @example for usage examples when helpful
 - Document behavior, edge cases, and assumptions
