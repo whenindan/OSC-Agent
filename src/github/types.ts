@@ -19,6 +19,9 @@ export interface GitHubIssue {
     login: string;
   };
   created_at: string;
+  labels?: Array<{
+    name?: string;
+  }>;
 }
 
 export interface GitHubPullRequest {
