@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger';
+import { metrics } from '../utils/metrics';
 import axios from 'axios';
 import { Config, ConfigSchema } from '../config/validator';
 import chalk from 'chalk';
@@ -28,8 +30,12 @@ export class ConfigValidator {
         },
       });
       console.log(chalk.green('✓ GitHub API connection successful'));
+      logger.info('GitHub API connection successful');
+      metrics.record('api_connection_success', 1, { service: 'github' });
     } catch (error) {
       console.log(chalk.red('✗ GitHub API connection failed'));
+      logger.error('GitHub API connection failed', { error });
+      metrics.record('api_connection_success', 0, { service: 'github' });
       if (axios.isAxiosError(error)) {
         console.log(chalk.red(`  ${error.message}`));
       }
@@ -40,8 +46,12 @@ export class ConfigValidator {
       // Simplified check, real check might involve a dummy generation call
       if (!config.gemini.api_key) throw new Error('Missing API Key');
       console.log(chalk.green('✓ Gemini API key present (connection check skipped for now)'));
+      logger.info('Gemini API key check passed');
+      metrics.record('api_connection_success', 1, { service: 'gemini' });
     } catch (error) {
       console.log(chalk.red('✗ Gemini API check failed'));
+      logger.error('Gemini API check failed', { error });
+      metrics.record('api_connection_success', 0, { service: 'gemini' });
     }
 
     // Test E2B
