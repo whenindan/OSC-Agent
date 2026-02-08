@@ -1,4 +1,9 @@
-export type RepoSlug = { owner: string; repo: string };
+import type { GitHubRepository } from '../github/types';
+
+export type RepoSlug = {
+  owner: GitHubRepository['owner']['login'];
+  repo: GitHubRepository['name'];
+};
 
 export function parseRepoSlug(input: string): RepoSlug {
   const trimmed = input.trim();
