@@ -29,15 +29,13 @@ export class ConfigValidator {
           'User-Agent': 'OSC-Agent',
         },
       });
-      console.log(chalk.green('✓ GitHub API connection successful'));
-      logger.info('GitHub API connection successful');
+      logger.info(chalk.green('✓ GitHub API connection successful'));
       metrics.record('api_connection_success', 1, { service: 'github' });
     } catch (error) {
-      console.log(chalk.red('✗ GitHub API connection failed'));
-      logger.error('GitHub API connection failed', { error });
+      logger.error(chalk.red('✗ GitHub API connection failed'), { error });
       metrics.record('api_connection_success', 0, { service: 'github' });
       if (axios.isAxiosError(error)) {
-        console.log(chalk.red(`  ${error.message}`));
+        logger.error(chalk.red(`  ${error.message}`));
       }
     }
 
@@ -45,12 +43,10 @@ export class ConfigValidator {
     try {
       // Simplified check, real check might involve a dummy generation call
       if (!config.gemini.api_key) throw new Error('Missing API Key');
-      console.log(chalk.green('✓ Gemini API key present (connection check skipped for now)'));
-      logger.info('Gemini API key check passed');
+      logger.info(chalk.green('✓ Gemini API key present (connection check skipped for now)'));
       metrics.record('api_connection_success', 1, { service: 'gemini' });
     } catch (error) {
-      console.log(chalk.red('✗ Gemini API check failed'));
-      logger.error('Gemini API check failed', { error });
+      logger.error(chalk.red('✗ Gemini API check failed'), { error });
       metrics.record('api_connection_success', 0, { service: 'gemini' });
     }
 
@@ -60,9 +56,11 @@ export class ConfigValidator {
       // Real E2B check would require instantiating a sandbox which might process intensive or cost money?
       // We can try a simple list call if available or just check existence.
       // sandbox.list() if using the SDK.
-      console.log(chalk.green('✓ E2B API key present (connection check skipped for now)'));
+      logger.info(chalk.green('✓ E2B API key present (connection check skipped for now)'));
+      metrics.record('api_connection_success', 1, { service: 'e2b' });
     } catch (error) {
-      console.log(chalk.red('✗ E2B API check failed'));
+      logger.error(chalk.red('✗ E2B API check failed'), { error });
+      metrics.record('api_connection_success', 0, { service: 'e2b' });
     }
   }
 }

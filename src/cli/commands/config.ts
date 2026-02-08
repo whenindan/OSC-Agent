@@ -18,16 +18,16 @@ export function registerConfigCommand(program: Command): void {
     .action(async () => {
       const startTimer = metrics.startTimer();
       try {
-        console.log(chalk.blue('Initializing configuration...'));
-        logger.info('Initializing configuration interactively');
+        logger.info(chalk.blue('Initializing configuration interactively...'));
         const config = await promptForConfig();
-        logger.info('Configuration received from prompt');
+        logger.debug('Configuration received from prompt');
 
         const validation = ConfigValidator.validate(config);
         if (!validation.valid) {
-          console.log(chalk.red('✗ Configuration is invalid based on your input:'));
-          validation.errors?.forEach((e) => console.log(chalk.red(`  - ${e}`)));
+          logger.warn(chalk.red('✗ Configuration is invalid based on your input:'));
+          validation.errors?.forEach((e) => logger.warn(chalk.red(`  - ${e}`)));
           logger.warn('Interactive configuration invalid', { errors: validation.errors });
+          metrics.record('command_duration', startTimer(), { command: 'config:init', status: 'invalid' });
           return;
         }
 
@@ -47,12 +47,11 @@ export function registerConfigCommand(program: Command): void {
 
         const targetPath = path.join(process.cwd(), '.env');
         if (fs.existsSync(targetPath)) {
-          console.log(chalk.yellow('.env file already exists. Overwriting...'));
+          logger.warn(chalk.yellow('.env file already exists. Overwriting...'));
         }
 
         fs.writeFileSync(targetPath, envContent);
-        console.log(chalk.green(`Configuration saved to ${targetPath}`));
-        logger.info('Configuration saved', { path: targetPath });
+        logger.info(chalk.green(`Configuration saved to ${targetPath}`));
 
         const duration = startTimer();
         metrics.record('command_duration', duration, { command: 'config:init' });
@@ -69,31 +68,28 @@ export function registerConfigCommand(program: Command): void {
       const endTimer = metrics.startTimer();
       try {
         const config = loadConfig();
-        logger.info('Validating configuration');
+        logger.info('Validating configuration...');
         const validation = ConfigValidator.validate(config);
 
         if (validation.valid) {
-          console.log(chalk.green('✓ Configuration structure is valid.'));
-          logger.info('Configuration structure valid');
+          logger.info(chalk.green('✓ Configuration structure is valid.'));
         } else {
-          console.log(chalk.red('✗ Configuration structure is invalid:'));
-          validation.errors?.forEach((e) => console.log(chalk.red(`  - ${e}`)));
-          logger.warn('Configuration structure invalid', { errors: validation.errors });
+          logger.error(chalk.red('✗ Configuration structure is invalid:'));
+          validation.errors?.forEach((e) => logger.error(chalk.red(`  - ${e}`)));
           const duration = endTimer();
           metrics.record('command_duration', duration, { command: 'config:validate', status: 'invalid_structure' });
           return;
         }
 
-        logger.info('Testing connections'); // Added logging
+        logger.info('Testing connections...');
         await ConfigValidator.testConnections(config);
 
         const duration = endTimer();
         metrics.record('command_duration', duration, { command: 'config:validate', status: 'success' });
       } catch (error) {
-        console.error(chalk.red('Failed to load configuration:'));
+        logger.error(chalk.red('Failed to load configuration.'));
         if (error instanceof Error) {
-          console.error(chalk.red(`  ${error.message}`));
-          logger.error('Failed to load configuration during validation', { error: error.message });
+          logger.error(chalk.red(`  ${error.message}`));
         }
         const duration = endTimer();
         metrics.record('command_duration', duration, { command: 'config:validate', status: 'failed' });
@@ -106,18 +102,21 @@ export function registerConfigCommand(program: Command): void {
     .action(() => {
       try {
         const config = loadConfig();
-        logger.info('Showing configuration');
+        logger.info('Showing configuration...');
         // Mask secrets
         const maskedConfig = JSON.parse(JSON.stringify(config)) as Config;
         if (maskedConfig.github?.token) maskedConfig.github.token = '********';
         if (maskedConfig.gemini?.api_key) maskedConfig.gemini.api_key = '********';
         if (maskedConfig.e2b?.api_key) maskedConfig.e2b.api_key = '********';
 
-        console.log(JSON.stringify(maskedConfig, null, 2));
+        // For JSON output, we might strictly want to use console.log if piping is expected,
+        // but for "showing", logger.info is safer per user instruction.
+        // Using JSON.stringify with null, 2 for pretty print.
+        logger.info(JSON.stringify(maskedConfig, null, 2));
       } catch (error) {
-        console.error(chalk.red('Failed to load configuration:'));
+        logger.error(chalk.red('Failed to load configuration.'));
         if (error instanceof Error) {
-          console.error(chalk.red(error.message));
+          logger.error(chalk.red(error.message));
         }
       }
     });
